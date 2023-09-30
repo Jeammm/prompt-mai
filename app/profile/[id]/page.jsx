@@ -20,10 +20,7 @@ const MyProfile = () => {
       const data = await res.json();
       setPosts(data);
     };
-
-    if (session?.user) {
-      fetchPost();
-    }
+    fetchPost();
   }, []);
 
   useEffect(() => {

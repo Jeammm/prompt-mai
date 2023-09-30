@@ -63,7 +63,7 @@ const Feed = () => {
       >
         <input
           type="search"
-          placeholder="Search for a tag or a username"
+          placeholder="Search for a tag or an idea..."
           value={searchText}
           onChange={handleSearchChange}
           // required
