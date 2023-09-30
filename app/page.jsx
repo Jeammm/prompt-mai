@@ -1,4 +1,4 @@
-import Feed from "@components/Feed"
+import Feed from "@components/Feed";
 
 const Home = () => {
   return (
@@ -10,7 +10,7 @@ const Home = () => {
       </h1>
       <p className=" desc text-center">
         <strong>Prompt Mai?</strong> Get ready for the modern AI-Powered world
-        with this open-source tool for discover and share creative prompts
+        with this open-source tool for discover and share new creative prompts
       </p>
 
       <Feed />
