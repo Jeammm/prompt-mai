@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Static Badge](https://img.shields.io/badge/-Made_with_Next.js-grey?logo=nextdotjs)   ![Static Badge](https://img.shields.io/badge/-ReactJs-61DAFB?logo=react&logoColor=white&style=flat-square)  ![Static Badge](https://img.shields.io/badge/-MongoDB-green?logo=mongodb&logoColor=black&style=flat-square) 
+
+# Prompt Mai - AI-Prompt Sharing Website
+
+Welcome to Prompt Mai, a website designed for sharing and collaborating on AI-Prompt ideas with the community. With Prompt Mai, you can effortlessly post, edit, delete, upvote, and downvote AI-Prompts. This README will guide you through the setup, features, and usage of the project.
+
+## Table of Contents
+
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+
+## Features
+
+- **User Authentication**: Secure user accounts and authentication for posting and voting on AI-Prompts.
+- **Create AI-Prompts**: Share your AI-Prompt ideas with the community.
+- **Edit and Delete AI-Prompts**: Update or remove your AI-Prompts as needed.
+- **Voting System**: Upvote or downvote AI-Prompts to highlight the best ideas.
+- **Responsive Design**: The website is designed to work seamlessly on various devices.
+- **Serverless Deployment**: Deployed effortlessly with Vercel for high availability and scalability.
+
+## Technologies Used
+
+Prompt Mai is built using the following technologies:
+
+- [Next.js](https://nextjs.org/): A React framework for building efficient and scalable web applications.
+- [MongoDB](https://www.mongodb.com/): A NoSQL database for storing AI-Prompt data.
+- [Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework for styling.
+- [Vercel](https://vercel.com/): A serverless deployment platform for hosting web applications.
 
 ## Getting Started
 
-First, run the development server:
+To get Prompt Mai up and running on your local machine, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Clone the repository**:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```bash
+   git clone https://github.com/your-username/prompt-mai.git
+   cd prompt-mai
+   ```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+2. **Install dependencies**:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   ```bash
+   npm install
+   ```
 
-## Learn More
+   or
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   bun install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Configure Environment Variables**:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   Create a `.env.local` file in the project root and configure the following variables:
 
-## Deploy on Vercel
+   ```env
+    GOOGLE_ID=your-google-id
+    GOOGLE_CLIENT_SECRET=your-google-client-secret
+    MONGODB_URI=your-mongpdb-uri
+    NEXTAUTH_URL=http://localhost:3000/
+    NEXTAUTH_URL_INTERNAL=http://localhost:3000/
+    NEXTAUTH_SECRET=random-string-secret
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   Replace field with your proper value.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+4. **Run the development server**:
+
+   ```bash
+   npm run dev
+   ```
+
+   or
+
+   ```bash
+   bun dev
+   ```
+
+5. **Open your browser** and navigate to `http://localhost:3000` to access Prompt Mai locally.
+
+## Usage
+
+Once Prompt Mai is up and running, you can start using it to share and interact with AI-Prompt ideas:
+
+- **Create an Account**: Sign up or log in to start posting and voting on AI-Prompts.
+
+- **Post an AI-Prompt**: Share your AI-Prompt idea with the community by clicking the "Post" button and filling in the necessary information.
+
+- **Edit and Delete AI-Prompts**: You can edit or delete your own AI-Prompts by navigating to the respective prompt and clicking the appropriate buttons.
+
+- **Vote on AI-Prompts**: Show your support for AI-Prompts you like by upvoting or downvoting them.
