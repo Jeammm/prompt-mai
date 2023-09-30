@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import Profile from "@components/profile";
+import Profile from "@components/Profile";
 
 const MyProfile = () => {
   const { data: session } = useSession();
