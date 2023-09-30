@@ -4,10 +4,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const Nav = () => {
   const { data: session } = useSession();
-  const isUserLoggedIn = true;
+  const router = useRouter();
 
   const [providers, setProviders] = useState(null);
   const [toggleDropDown, setToggleDropDown] = useState(false);
@@ -20,6 +21,11 @@ const Nav = () => {
 
     fetchProviders();
   }, []);
+
+  const signOutHandler = () => {
+    setToggleDropDown(false);
+    signOut({ callbackUrl: "/" });
+  };
 
   return (
     <nav className="flex-between w-full mb-16 pt-3">
@@ -41,7 +47,11 @@ const Nav = () => {
               Create Post
             </Link>
 
-            <button type="button" onClick={signOut} className="outline_btn">
+            <button
+              type="button"
+              onClick={signOutHandler}
+              className="outline_btn"
+            >
               Sign Out
             </button>
 
@@ -100,13 +110,10 @@ const Nav = () => {
                 </Link>
                 <button
                   type="button"
-                  onClick={() => {
-                    setToggleDropDown(false);
-                    signOut();
-                  }}
+                  onClick={signOutHandler}
                   className="mt-5 w-full black_btn"
                 >
-                  Sing Out
+                  Sign Out
                 </button>
               </div>
             )}
