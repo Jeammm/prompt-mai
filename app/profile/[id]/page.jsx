@@ -16,12 +16,14 @@ const MyProfile = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      const res = await fetch(`/api/users/${params.id}/post`);
+      const res = await fetch(`/api/users/${params.id}/post`, {
+        headers: { userId: session?.user.id },
+      });
       const data = await res.json();
       setPosts(data);
     };
     fetchPost();
-  }, []);
+  }, [session]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -30,7 +32,7 @@ const MyProfile = () => {
       setUserDetail(data);
     };
     fetchUser();
-  }, []);
+  }, [session]);
 
   return (
     <Profile

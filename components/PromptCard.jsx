@@ -1,32 +1,135 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 
 const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
-  const [copied, setCopied] = useState(null);
   const { data: session } = useSession();
   const pathName = usePathname();
   const router = useRouter();
 
-  const handleCopy = () => {
+  const [copied, setCopied] = useState(null);
+  const [liked, setLiked] = useState(post.reaction.liked);
+  const [disliked, setDisliked] = useState(post.reaction.disliked);
+
+  useEffect(() => {
+    setLiked(post.reaction.liked);
+    setDisliked(post.reaction.disliked);
+  }, [post]);
+
+  const handleCopy = (e) => {
+    e.stopPropagation();
     setCopied(post.prompt);
     navigator.clipboard.writeText(post.prompt);
     setTimeout(() => setCopied(null), 3000);
   };
 
-  const profileClickHandler = () => {
-    const cid = post?.creator?._id
+  const profileClickHandler = (e) => {
+    e.stopPropagation();
+    const cid = post?.creator?._id;
     if (cid) {
-      router.push(`/profile/${cid}`)
+      router.push(`/profile/${cid}`);
     }
-  }
+  };
+
+  const cardClickHandler = () => {
+    router.push(`/post/${post._id}`);
+  };
+
+  const handleTagPress = (e) => {
+    e.stopPropagation();
+    if (handleTagClick) {
+      handleTagClick(post.tag);
+    }
+  };
+
+  const handleLike = async (e) => {
+    e.stopPropagation();
+
+    if (!session?.user) {
+      return alert("You need to Sign In before voting");
+    }
+
+    const tempLike = liked;
+    const tempDislike = disliked;
+
+    if (liked) {
+      setLiked(false);
+    } else {
+      setLiked(true);
+      if (disliked) {
+        setDisliked(false);
+      }
+    }
+
+    const res = await fetch(`/api/prompt/${post._id}/`, {
+      method: "PUT",
+      body: JSON.stringify({
+        reaction: "like",
+        userId: session?.user.id,
+      }),
+    });
+
+    if (!res.ok) {
+      setLiked(tempLike);
+      setDisliked(tempDislike);
+    }
+  };
+
+  const handleDislike = async (e) => {
+    e.stopPropagation();
+    if (!session?.user) {
+      return alert("You need to Sign In before voting");
+    }
+
+    const tempLike = liked;
+    const tempDislike = disliked;
+
+    if (disliked) {
+      setDisliked(false);
+    } else {
+      setDisliked(true);
+      if (liked) {
+        setLiked(false);
+      }
+    }
+
+    const res = await fetch(`/api/prompt/${post._id}/`, {
+      method: "PUT",
+      body: JSON.stringify({
+        reaction: "dislike",
+        userId: session?.user.id,
+      }),
+    });
+
+    if (!res.ok) {
+      setLiked(tempLike);
+      setDisliked(tempDislike);
+    }
+  };
+
+  const handleShare = (e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(`${post._id}`);
+  };
+  const editPress = (e) => {
+    e.stopPropagation();
+    handleEdit();
+  };
+
+  const deletePress = (e) => {
+    e.stopPropagation();
+    handleDelete();
+  };
 
   return (
-    <div className="prompt_card">
+    <div className="prompt_card cursor-pointer" onClick={cardClickHandler}>
       <div className="flex justify-between items-start gap-5">
-        <div className="flex-1 flex justify-start items-center gap-3 cursor-pointer" onClick={profileClickHandler}>
+        <div
+          className="flex-1 flex justify-start items-center gap-3 cursor-pointer"
+          onClick={profileClickHandler}
+        >
           <Image
             src={post.creator?.image}
             alt="user"
@@ -60,22 +163,81 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
 
       <p className="my-4 font-satoshi text-sm text-grey-700">{post.prompt}</p>
       <p
-        className="font-inter text-sm blue_gradient cursor-pointer"
-        onClick={() => handleTagClick && handleTagClick(post.tag)}
+        className="font-inter text-sm blue_gradient cursor-pointer w-fit"
+        onClick={(e) => handleTagPress(e)}
       >
         #{post.tag}
       </p>
 
+      <div className="flex flex-end gap-3 mt-3">
+        <div
+          className="flex gap-1 hover:scale-[1.05] ease-in-out duration-100 cursor-pointer items-center"
+          onClick={handleLike}
+        >
+          <p className="font-satoshi">
+            {post.reaction.liked
+              ? post.liked.length - 1 + liked
+              : post.liked.length + liked}
+          </p>
+          <div>
+            <Image
+              src={
+                liked
+                  ? "/assets/icons/vote/upvote_tick.svg"
+                  : "/assets/icons/vote/upvote.svg"
+              }
+              width={23}
+              height={23}
+              alt="upvote"
+            />
+          </div>
+        </div>
+        <div
+          className="flex gap-1 hover:scale-[1.05] ease-in-out duration-100 cursor-pointer items-center"
+          onClick={handleDislike}
+        >
+          <p className="font-satoshi">
+            {post.reaction.disliked
+              ? post.disliked.length - 1 + disliked
+              : post.disliked.length + disliked}
+          </p>
+          <div>
+            <Image
+              src={
+                disliked
+                  ? "/assets/icons/vote/downvote_tick.svg"
+                  : "/assets/icons/vote/downvote.svg"
+              }
+              width={23}
+              height={23}
+              alt="downvote"
+            />
+          </div>
+        </div>
+
+        <div
+          className="hover:scale-[1.05] ease-in-out duration-100 cursor-pointer"
+          onClick={handleShare}
+        >
+          <Image
+            src="/assets/icons/share.svg"
+            width={23}
+            height={23}
+            alt="share"
+          />
+        </div>
+      </div>
+
       {session?.user.id === post.creator?._id && pathName === "/profile" && (
-        <div className="mt-5 flex-center gap-4 border-t border-gray-100 pt-3">
+        <div className="mt-3 flex-center gap-4 border-t border-gray-100 pt-3">
           <p
-            onClick={handleEdit}
+            onClick={editPress}
             className="font-inter text-sm green_gradient cursor-pointer"
           >
             Edit
           </p>
           <p
-            onClick={handleDelete}
+            onClick={deletePress}
             className="font-inter text-sm orange_gradient cursor-pointer"
           >
             Delete

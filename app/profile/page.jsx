@@ -13,7 +13,9 @@ const MyProfile = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      const res = await fetch(`/api/users/${session?.user.id}/post`);
+      const res = await fetch(`/api/users/${session?.user.id}/post`, {
+        headers: { userId: session?.user.id },
+      });
       const data = await res.json();
       setPosts(data);
     };
@@ -21,7 +23,7 @@ const MyProfile = () => {
     if (session?.user) {
       fetchPost();
     }
-  }, []);
+  }, [session]);
 
   const handleEdit = (post) => {
     router.push(`/update-prompt?id=${post._id}`);

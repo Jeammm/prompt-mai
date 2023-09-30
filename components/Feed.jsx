@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 import PromptCard from "./PromptCard";
 
@@ -23,6 +24,7 @@ const Feed = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("search");
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [searchText, setSearchText] = useState(query || "");
   const [posts, setPosts] = useState([]);
@@ -43,16 +45,24 @@ const Feed = () => {
     const fetchPost = async () => {
       let res;
       if (query) {
-        res = await fetch(`/api/prompt/search/${query}`);
+        res = await fetch(`/api/prompt/search/${query}`, {
+          headers: {
+            userId: session?.user.id,
+          },
+        });
       } else {
-        res = await fetch(`/api/prompt/`);
+        res = await fetch(`/api/prompt/`, {
+          headers: {
+            userId: session?.user.id,
+          },
+        });
       }
       const data = await res.json();
       setPosts(data);
     };
     fetchPost();
     setSearchText(query || "");
-  }, [searchParams]);
+  }, [searchParams, session]);
 
   return (
     <section className="feed">

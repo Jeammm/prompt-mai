@@ -11,6 +11,9 @@ export const POST = async (req, res) => {
       creator: userId,
       prompt,
       tag,
+      liked: [],
+      disliked: [],
+      comment: [],
     });
 
     await newPrompt.save();
