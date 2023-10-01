@@ -27,7 +27,7 @@ const Comment = ({ data }) => {
   };
 
   return (
-    <div className="mt-2">
+    <div className="mt-1 border-b pb-3">
       <div
         className="flex-1 flex justify-start items-center gap-3 cursor-pointer"
         onClick={profileHandler}
@@ -40,7 +40,7 @@ const Comment = ({ data }) => {
           className="rounded-full object-containe"
         />
         <div className="flex flex-col">
-          <h3 className="font-inter text-sm text-gray-900">
+          <h3 className="font-inter text-sm font-medium text-gray-900">
             {data.commenter.username}
           </h3>
           <p className="font-inter text-xs text-gray-500">

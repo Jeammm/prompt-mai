@@ -178,5 +178,5 @@
 }
 
 .react_con {
-  @apply flex flex-row md:flex-col gap-3 justify-end  md:justify-start items-center
+  @apply flex flex-row md:flex-col gap-3 justify-end  md:justify-start items-center mt-4 md:mt-0
 }
