@@ -14,6 +14,8 @@ const Post = () => {
   const router = useRouter();
 
   const [copied, setCopied] = useState(null);
+  const [shared, setShared] = useState(null);
+
   const [post, setPost] = useState({
     creator: null,
     prompt: null,
@@ -125,7 +127,11 @@ const Post = () => {
 
   const handleShare = (e) => {
     e.stopPropagation();
-    navigator.clipboard.writeText(`${post._id}`);
+    setShared(post._id);
+    navigator.clipboard.writeText(
+      `https://prompt-mai.vercel.app/post/${post._id}`
+    );
+    setTimeout(() => setShared(null), 3000);
   };
 
   const submitCommentHandler = async (e) => {
@@ -259,7 +265,9 @@ const Post = () => {
               onClick={handleShare}
             >
               <Image
-                src="/assets/icons/share.svg"
+                src={
+                  shared ? "/assets/icons/tick.svg" : "/assets/icons/share.svg"
+                }
                 width={23}
                 height={23}
                 alt="share"

@@ -10,6 +10,8 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
   const router = useRouter();
 
   const [copied, setCopied] = useState(null);
+  const [shared, setShared] = useState(null);
+
   const [liked, setLiked] = useState(post.reaction.liked);
   const [disliked, setDisliked] = useState(post.reaction.disliked);
 
@@ -111,7 +113,11 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
 
   const handleShare = (e) => {
     e.stopPropagation();
-    navigator.clipboard.writeText(`${post._id}`);
+    setShared(post._id);
+    navigator.clipboard.writeText(
+      `https://prompt-mai.vercel.app/post/${post._id}`
+    );
+    setTimeout(() => setShared(null), 3000);
   };
   const editPress = (e) => {
     e.stopPropagation();
@@ -215,12 +221,28 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
           </div>
         </div>
 
+        <div className="flex gap-1 hover:scale-[1.05] ease-in-out duration-100 cursor-pointer items-center">
+          <p className="font-satoshi">{post.comment.length}</p>
+          <div>
+            <Image
+              src={"/assets/icons/comment.svg"}
+              width={23}
+              height={23}
+              alt="downvote"
+            />
+          </div>
+        </div>
+
         <div
           className="hover:scale-[1.05] ease-in-out duration-100 cursor-pointer"
           onClick={handleShare}
         >
           <Image
-            src="/assets/icons/share.svg"
+            src={
+              shared === post._id
+                ? "/assets/icons/tick.svg"
+                : "/assets/icons/share.svg"
+            }
             width={23}
             height={23}
             alt="share"

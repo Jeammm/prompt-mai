@@ -5,8 +5,6 @@ import Comment from "@models/comment";
 export const POST = async (req, { params }) => {
   const { userId, detail } = await req.json();
 
-  console.log(userId, detail);
-
   try {
     await connectToDB();
 
