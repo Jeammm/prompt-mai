@@ -154,7 +154,7 @@
 }
 
 .prompt_post {
-  @apply flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/80 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter w-full h-fit flex flex-col gap-5;
+  @apply flex-1 break-inside-avoid rounded-lg border border-gray-300 bg-white/80 bg-clip-padding p-6 pb-4 backdrop-blur-lg backdrop-filter w-full h-fit flex flex-col gap-3;
 }
 
 .flex-center {

@@ -50,7 +50,7 @@ const MyProfile = () => {
   return (
     <Profile
       name="My"
-      desc="welcome to your profile page"
+      desc="Welcome to your profile! Here, you can find a list of your prompts, you can edit and delete them as needed. "
       data={posts}
       handleEdit={handleEdit}
       handleDelete={handleDelete}

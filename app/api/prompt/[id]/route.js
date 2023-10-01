@@ -1,5 +1,6 @@
 import { connectToDB } from "@utils/database";
 import Prompt from "@models/prompt";
+import Comment from "@models/comment";
 
 export const GET = async (req, { params }) => {
   const header = await req.headers;
@@ -7,7 +8,14 @@ export const GET = async (req, { params }) => {
 
   try {
     await connectToDB();
-    const prompt = await Prompt.findById(params.id).populate("creator");
+    const prompt = await Prompt.findById(params.id)
+      .populate("creator")
+      .populate({
+        path: "comment",
+        populate: {
+          path: "commenter",
+        },
+      });
 
     if (!prompt) {
       return new Response("Prompt not found", { status: 404 });
@@ -26,6 +34,7 @@ export const GET = async (req, { params }) => {
 
     return new Response(JSON.stringify(promptWithReaction), { status: 201 });
   } catch (error) {
+    console.log(error);
     return new Response("Failed to get prompts data", { status: 500 });
   }
 };
